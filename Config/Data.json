@@ -1,0 +1,16 @@
+{
+	"email":"purva@gmail.com",
+	"firstName":"Purva",
+	"lastName":"Malhotra",
+	"Address":
+	{
+		"state":"Haryana",
+		"country":"India",
+		"Detail":
+		{
+			"Dist":"Yamunanagar",
+			"pin":15003
+		}
+	}
+
+}
