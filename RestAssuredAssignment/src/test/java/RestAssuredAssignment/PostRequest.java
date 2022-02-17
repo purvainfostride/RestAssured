@@ -20,5 +20,4 @@ private String job;
 		{
 			this.job = job;
 		}
-
 }
