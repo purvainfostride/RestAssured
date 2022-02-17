@@ -1,0 +1,45 @@
+package RestAssuredAssignment;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import static io.restassured.RestAssured.*;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class PostDataRequestbyDDF {
+	
+	@Test
+	public void postingrequest() throws IOException {
+	PostRequest datareq=new PostRequest();
+
+	FileInputStream ip = new FileInputStream(System.getProperty("user.dir")+"\\TestData\\testdata.xls");
+
+	HSSFWorkbook wb = new HSSFWorkbook(ip);
+	HSSFSheet sheet = wb.getSheetAt(0);
+	String name = sheet.getRow(1).getCell(0).getStringCellValue();
+	String job = sheet.getRow(1).getCell(1).getStringCellValue();
+	datareq.setName(name);
+	datareq.setJob(job);
+	
+	Response response = given().contentType(ContentType.JSON).when().body(datareq)
+	.post("https://reqres.in/api/users");
+
+	//Print Response
+	String responseBody = response.getBody().asString();
+	System.out.println("Response Body is:"+responseBody);
+
+	//Validate Status code
+	int statusCode=response.getStatusCode();
+	System.out.println("Status Code is: " + statusCode);
+	Assert.assertEquals(statusCode, 201);
+
+	//Validate the Status line
+	String statusLine=response.getStatusLine();
+	System.out.println("Status line is: " + statusLine);
+	Assert.assertEquals(statusLine, "HTTP/1.1 201 Created");
+}
+}
